@@ -223,3 +223,6 @@ target_link_libraries(pcl_sample_writer ${catkin_LIBRARIES}	${PCL_LIBRARIES})
 
 add_executable(pcl_sample_visual src/pcl_sample_visual.cpp)
 target_link_libraries(pcl_sample_visual ${catkin_LIBRARIES}	${PCL_LIBRARIES})
+
+add_executable(pcl_sample_visualizer src/pcl_sample_visualizer.cpp)
+target_link_libraries(pcl_sample_visualizer ${catkin_LIBRARIES}	${PCL_LIBRARIES})
