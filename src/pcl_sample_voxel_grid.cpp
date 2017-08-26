@@ -3,38 +3,48 @@
 #include<pcl_conversions/pcl_conversions.h>
 #include<sensor_msgs/PointCloud2.h>
 #include<pcl/filters/voxel_grid.h>
-main(int argc,char**argv)
+class cloud_voxel
 {
-ros::init(argc,argv,"pcl_create_voxel_grid");
-ros::NodeHandle	nh;
-ros::Publisher	pcl_pub	=nh.advertise<sensor_msgs::PointCloud2>("pcl_output_voxel_grip",1);
-pcl::PointCloud<pcl::PointXYZ>	cloud;
-pcl::PointCloud<pcl::PointXYZ>	cloud_downsampled;
-sensor_msgs::PointCloud2 output;
-//	Fill	in	the	cloud	data
-cloud.width	=1000;
-cloud.height=100;
-cloud.points.resize(cloud.width	*cloud.height);
-for	(size_t	i=0;i<cloud.points.size();++i)
+public:
+	cloud_voxel();
+	void voxel_handler(const sensor_msgs::PointCloud2 & input);
+
+protected:
+	ros::NodeHandle nh;
+	ros::Subscriber pcl_sub;
+	ros::Publisher pcl_pub;
+
+
+};
+
+
+cloud_voxel::cloud_voxel()
 {
-cloud.points[i].x=1024*rand()/(RAND_MAX	+1.0f);
-cloud.points[i].y=1024*rand()/(RAND_MAX	+1.0f);
-cloud.points[i].z=1024*rand()/(RAND_MAX	+1.0f);
+pcl_sub = nh.subscribe("/statistical_outlier_removal_cloud",10,&cloud_voxel::voxel_handler,this);
+pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("downsampled_voxel_grid",1);
 }
 
-pcl::VoxelGrid<pcl::PointXYZ>	voxelSampler;
-voxelSampler.setInputCloud(cloud.makeShared());
-voxelSampler.setLeafSize(0.2f,	0.2f,	0.2f);
-voxelSampler.filter(cloud_downsampled);
-//Convert	the	cloud	to	ROS	message
-pcl::toROSMsg(cloud_downsampled,output);
-output.header.frame_id="map";
-ros::Rate loop_rate(1);
-while(ros::ok())
+
+void cloud_voxel::voxel_handler(const sensor_msgs::PointCloud2 & input)
 {
-pcl_pub.publish(output);
-ros::spinOnce();
-loop_rate.sleep();
+pcl::PointCloud<pcl::PointXYZ> cloud, cloud_downsampled;
+sensor_msgs::PointCloud2 voxel_cloud;
+pcl::fromROSMsg(input,cloud);
+pcl::VoxelGrid<pcl::PointXYZ> voxel_sampler;
+voxel_sampler.setInputCloud(cloud.makeShared());
+voxel_sampler.setLeafSize(0.02f,0.02f,0.02f);
+voxel_sampler.filter(cloud_downsampled);
+pcl::toROSMsg(cloud_downsampled,voxel_cloud);
+pcl_pub.publish(voxel_cloud);
 }
-return	0;
+
+
+
+int main(int argc ,char ** argv)
+{ ros::init(argc,argv,"down_sampling_voxel_grid");
+
+cloud_voxel pcl_cloud;
+ros::spin();
+
+	return 0;
 }

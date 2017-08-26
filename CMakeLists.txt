@@ -229,3 +229,5 @@ target_link_libraries(pcl_sample_visualizer ${catkin_LIBRARIES}	${PCL_LIBRARIES}
 
 add_executable(pcl_sample_filter src/pcl_sample_filter.cpp)
 target_link_libraries(pcl_sample_filter ${catkin_LIBRARIES};${PCL_LIBRARIES} )
+add_executable(pcl_sample_visualizer_voxel src/pcl_sample_visualizer2.cpp)
+target_link_libraries(pcl_sample_visualizer_voxel ${catkin_LIBRARIES}	${PCL_LIBRARIES})

@@ -10,16 +10,17 @@ public:
     cloudHandler()
     : viewer("Cloud Viewer")
     {  
-       output_sub = nh.subscribe("/pcl_reader_output", 1, &cloudHandler::input_cloud, this);
       downsampled_sub = nh.subscribe("/statistical_outlier_removal_cloud", 1, &cloudHandler::filtered_cloud, this);
+        
+       voxel_sub = nh.subscribe("/downsampled_voxel_grid", 1, &cloudHandler::voxel_handler, this);
 
         viewer_timer = nh.createTimer(ros::Duration(0.1), &cloudHandler::timerCB, this);
 
-        viewer.createViewPort(0.0, 0.0, 0.5, 1.0, output_view);
-        viewer.setBackgroundColor(0, 0, 0, output_view);
-
-        viewer.createViewPort(0.5, 0.0, 1.0, 1.0, downsampled_view);
+        viewer.createViewPort(0.0, 0.0, 0.5, 1.0, downsampled_view);
         viewer.setBackgroundColor(0, 0, 0, downsampled_view);
+
+        viewer.createViewPort(0.5, 0.0, 1.0, 1.0,voxel_view);
+        viewer.setBackgroundColor(0, 0, 0,voxel_view);
 
 
 
@@ -27,15 +28,15 @@ public:
         viewer.initCameraParameters();
     }
 
-    void input_cloud(const sensor_msgs::PointCloud2ConstPtr& input)
+
+ void voxel_handler(const sensor_msgs::PointCloud2ConstPtr& input)
     {
         pcl::PointCloud<pcl::PointXYZ> cloud;
         pcl::fromROSMsg(*input, cloud);
 
-        viewer.removeAllPointClouds(output_view);
-        viewer.addPointCloud<pcl::PointXYZ>(cloud.makeShared(), "input", output_view);
+        viewer.removeAllPointClouds(voxel_view);
+        viewer.addPointCloud<pcl::PointXYZ>(cloud.makeShared(), "voxel_view",voxel_view);
     }
-
 
     void filtered_cloud(const sensor_msgs::PointCloud2ConstPtr& input)
     {
@@ -58,15 +59,15 @@ public:
 
 protected:
     ros::NodeHandle nh;
-    ros::Subscriber output_sub, downsampled_sub;
+    ros::Subscriber downsampled_sub, voxel_sub;
     pcl::visualization::PCLVisualizer viewer;
-    int output_view, downsampled_view;
+    int downsampled_view,voxel_view;
     ros::Timer viewer_timer;
 };
 
 main (int argc, char **argv)
 {
-    ros::init (argc, argv, "pcl_visualize2");
+    ros::init (argc, argv, "pcl_visualize_2");
 
     cloudHandler handler;
 
