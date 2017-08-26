@@ -28,7 +28,7 @@ sensor_msgs::PointCloud2 result;
 pcl::fromROSMsg(input,cloud);
 pcl::StatisticalOutlierRemoval<pcl::PointXYZ> statFilter;
 statFilter.setInputCloud(cloud.makeShared());
-statFilter.setMeanK(10);
+statFilter.setMeanK(50);
 statFilter.setStddevMulThresh(0.2);
 statFilter.filter(filtered_cloud);
 pcl::toROSMsg(filtered_cloud,result);

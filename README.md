@@ -18,3 +18,6 @@ alt="ouups" width="560" height="315" border="0" /></a>
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=ydVffVWW5-w
 " target="_blank"><img src="http://img.youtube.com/vi/ydVffVWW5-w/0.jpg" 
 alt="ouups" width="560" height="315" border="0" /></a>
+
+for more informations about the statistical outlier removal filter go to
+http://pointclouds.org/documentation/tutorials/statistical_outlier.php
