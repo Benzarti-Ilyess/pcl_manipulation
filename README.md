@@ -12,3 +12,9 @@ example : rosbag play -l kitti_2011_09_26_drive_0002_synced.bag
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=yy47cvPw2dA
 " target="_blank"><img src="http://img.youtube.com/vi/yy47cvPw2dA/0.jpg" 
 alt="ouups" width="560" height="315" border="0" /></a>
+
+
+# video_demo filtering point clouds with pcl statistical outlier removal filter
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=ydVffVWW5-w
+" target="_blank"><img src="http://img.youtube.com/vi/ydVffVWW5-w/0.jpg" 
+alt="ouups" width="560" height="315" border="0" /></a>

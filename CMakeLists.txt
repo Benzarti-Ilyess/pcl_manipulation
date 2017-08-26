@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -107,9 +107,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES pcl_manipulation
-#  CATKIN_DEPENDS pcl_conversions pcl_msgs pcl_ros sensor_msgs
-#  DEPENDS system_lib
+  LIBRARIES pcl_manipulation
+  CATKIN_DEPENDS pcl_conversions pcl_msgs pcl_ros sensor_msgs
+  DEPENDS system_lib
 )
 
 ###########
@@ -226,3 +226,6 @@ target_link_libraries(pcl_sample_visual ${catkin_LIBRARIES}	${PCL_LIBRARIES})
 
 add_executable(pcl_sample_visualizer src/pcl_sample_visualizer.cpp)
 target_link_libraries(pcl_sample_visualizer ${catkin_LIBRARIES}	${PCL_LIBRARIES})
+
+add_executable(pcl_sample_filter src/pcl_sample_filter.cpp)
+target_link_libraries(pcl_sample_filter ${catkin_LIBRARIES};${PCL_LIBRARIES} )

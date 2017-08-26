@@ -13,7 +13,7 @@ ros::NodeHandle nh;
 ros::Publisher pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("pcl_reader_output",1);
 sensor_msgs::PointCloud2 output;
 pcl::PointCloud<pcl::PointXYZ> cloud;
-pcl::io::loadPCDFile("ilyess1.pcd",cloud);
+pcl::io::loadPCDFile("table_scene_lms400.pcd",cloud);
 
 pcl::toROSMsg(cloud,output);
 

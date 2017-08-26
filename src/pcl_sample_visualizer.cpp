@@ -10,8 +10,8 @@ public:
     cloudHandler()
     : viewer("Cloud Viewer")
     {
-        output_sub = nh.subscribe("/kitti/velo/pointcloud", 1, &cloudHandler::outputCB, this);
-       downsampled_sub = nh.subscribe("/kitti/velo/pointcloud", 1, &cloudHandler::downsampledCB, this);
+        output_sub = nh.subscribe("/pcl_reader_output", 1, &cloudHandler::input_cloud, this);
+       downsampled_sub = nh.subscribe("/statistical_outlier_removal_cloud", 1, &cloudHandler::filtered_cloud, this);
         
         viewer_timer = nh.createTimer(ros::Duration(0.1), &cloudHandler::timerCB, this);
 
@@ -25,22 +25,22 @@ public:
         viewer.initCameraParameters();
     }
 
-    void outputCB(const sensor_msgs::PointCloud2ConstPtr& input)
+    void input_cloud(const sensor_msgs::PointCloud2ConstPtr& input)
     {
         pcl::PointCloud<pcl::PointXYZ> cloud;
         pcl::fromROSMsg(*input, cloud);
 
         viewer.removeAllPointClouds(output_view);
-        viewer.addPointCloud<pcl::PointXYZ>(cloud.makeShared(), "output", output_view);
+        viewer.addPointCloud<pcl::PointXYZ>(cloud.makeShared(), "input", output_view);
     }
 
-    void downsampledCB(const sensor_msgs::PointCloud2ConstPtr& input)
+    void filtered_cloud(const sensor_msgs::PointCloud2ConstPtr& input)
     {
         pcl::PointCloud<pcl::PointXYZ> cloud;
         pcl::fromROSMsg(*input, cloud);
 
         viewer.removeAllPointClouds(downsampled_view);
-        viewer.addPointCloud<pcl::PointXYZ>(cloud.makeShared(), "downsampled", downsampled_view);
+        viewer.addPointCloud<pcl::PointXYZ>(cloud.makeShared(), "filtered", downsampled_view);
     }
 
     void timerCB(const ros::TimerEvent&)
