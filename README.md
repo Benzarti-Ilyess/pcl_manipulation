@@ -21,3 +21,11 @@ alt="ouups" width="560" height="315" border="0" /></a>
 
 for more informations about the statistical outlier removal filter go to
 http://pointclouds.org/documentation/tutorials/statistical_outlier.php
+
+# video_demo downsampling point clouds with pcl voxel grid
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=IKkztrLwRco
+" target="_blank"><img src="http://img.youtube.com/vi/IKkztrLwRco/0.jpg" 
+alt="ouups" width="560" height="315" border="0" /></a>
+
+for more informations about the voxel grid downsampler go to
+http://pointclouds.org/documentation/tutorials/voxel_grid.php
